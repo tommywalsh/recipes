@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cooking: Recipe</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+  <script src="recipe.js"></script>
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="list.html">Recipes</a>
+        <a class="brand" href="#" data-bind="text: title"></a>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr class="row">
+            <td class="col-sm-1">Done</td>
+            <td class="col-sm-3">Ingredients</td>
+            <td class="col-sm-8">Instructions</td>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- ko foreach: steps -->
+        <tr class="row">
+            <td class="col-sm-1"><input type="checkbox" data-bind="checked: isCompleted"></input></td>
+            <td class="col-sm-3" data-bind="visible: !isCompleted()">
+                <!-- ko foreach: ingredients -->
+                <span data-bind="text: text"></span><br />
+                <!-- /ko -->
+            </td>
+            <td class="col-sm-8" data-bind="text: instructions, visible: !isCompleted()"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-sm-2" data-bind="text: fromMinutes(completionTime())"></td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    let id = getUrlParam("id");
+    ko.applyBindings(new RecipeCookTimeViewModel(id));
+</script>
+</body>
+</html>
