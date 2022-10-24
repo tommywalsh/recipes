@@ -93,7 +93,7 @@ var RecipeViewModel = function(recipeId) {
 /**
  * Alternate version of the recipe view models that are useful for using at cooking time.
  */
-var RecipeStepCookTimeViewModel = function(ingredients, instructions, duration, startTime) {
+var RecipeStepCookTimeViewModel = function(ingredients, other_inputs, instructions) {
     var self = this
 
     self.ingredients = ko.observableArray()
@@ -102,12 +102,16 @@ var RecipeStepCookTimeViewModel = function(ingredients, instructions, duration, 
             text: ingredients[i]
         }))
     }
+
+    self.other_inputs = ko.observableArray()
+    for (var i = 0; i < other_inputs.length; i++) {
+        self.other_inputs.push(ko.observable({
+            text: other_inputs[i]
+        }))
+    }
+
     self.instructions = ko.observable(instructions)
-    self.duration = ko.observable(duration)
     self.isCompleted = ko.observable(false)
-    self.completionTime = ko.computed(function() {
-        return startTime() + self.duration()
-    })
 }
 
 var RecipeCookTimeViewModel = function(recipeId) {
@@ -123,9 +127,8 @@ var RecipeCookTimeViewModel = function(recipeId) {
         for (var i = 0; i < recipeJson.steps.length; i++) {
             var model = new RecipeStepCookTimeViewModel(
                 recipeJson.steps[i].ingredients,
-                recipeJson.steps[i].instructions,
-                recipeJson.steps[i].duration,
-                previousStopTime
+                recipeJson.steps[i].other_inputs,
+                recipeJson.steps[i].instructions
             )
             self.steps.push(model)
             previousStopTime = model.completionTime
@@ -143,28 +146,22 @@ var RecipeCookTimeViewModel = function(recipeId) {
 }
 
 
-function RecipeListViewModel() {
-    var self = this;
+var RecipeListViewModel = function(recipeId) {
+    var self = this
     self.recipes = ko.observableArray()
 
-    self.update = function() {
-        var ajaxResult = runAjax(getRecipeUrl(), 'GET')
-        ajaxResult.done(self.acceptData)
+    self.acceptData = function(recipeJson) {
+        self.recipes(recipeJson)
     }
 
-    self.acceptData = function(newData) {
-        self.recipes([])
-        for (var i = 0; i < newData.length; i++) {
-                 self.recipes.push({
-                   title: ko.observable(newData[i].title),
-                   description: ko.observable(newData[i].description),
-                   tags: ko.observable(newData[i].tags),
-                   id: ko.observable(newData[i].id)
-                 });
-        }
+    self.requestData = function(recipeId) {
+        let filename = `recipe_list.json`
+        fetch(filename)
+          .then(response => response.json())
+          .then(json => self.acceptData(json))
     }
 
-    self.update()
+    self.requestData(recipeId)
 }
 
 function runAjax(url, method, data) {

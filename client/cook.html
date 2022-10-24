@@ -22,23 +22,26 @@
     <thead>
         <tr class="row">
             <td class="col-sm-1">Done</td>
-            <td class="col-sm-3">Ingredients</td>
-            <td class="col-sm-8">Instructions</td>
+            <td class="col-sm-2">Ingredients</td>
+            <td class="col-sm-2">Other Inputs</td>
+            <td class="col-sm-7">Instructions</td>
         </tr>
     </thead>
     <tbody>
         <!-- ko foreach: steps -->
         <tr class="row">
             <td class="col-sm-1"><input type="checkbox" data-bind="checked: isCompleted"></input></td>
-            <td class="col-sm-3" data-bind="visible: !isCompleted()">
+            <td class="col-sm-2" data-bind="visible: !isCompleted()">
                 <!-- ko foreach: ingredients -->
                 <span data-bind="text: text"></span><br />
                 <!-- /ko -->
             </td>
-            <td class="col-sm-8" data-bind="text: instructions, visible: !isCompleted()"></td>
-        </tr>
-        <tr class="row">
-            <td class="col-sm-2" data-bind="text: fromMinutes(completionTime())"></td>
+            <td class="col-sm-2" data-bind="visible: !isCompleted()">
+                <!-- ko foreach: other_inputs -->
+                <span data-bind="text: text"></span><br />
+                <!-- /ko -->
+            </td>
+            <td class="col-sm-7" data-bind="text: instructions, visible: !isCompleted()"></td>
         </tr>
         <!-- /ko -->
     </tbody>

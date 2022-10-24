@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Recipe List</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+  <script src="recipe.js"></script>
+</head>
+<body>
+
+<ul>
+    <!-- ko foreach: recipes -->
+    <li>
+        <a class="brand" href="#" data-bind="text: title, href: link">
+    </li>
+</ul>
+<script type="text/javascript">
+    let id = getUrlParam("id");
+    ko.applyBindings(new RecipeCookTimeViewModel(id));
+</script>
+</body>
+</html>

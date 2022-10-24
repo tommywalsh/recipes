@@ -29,14 +29,14 @@ def parse_header(header_lines):
 
 def parse_step(step_lines):
     ingredients = []
-    outputs = []
+    other_inputs = []
     instructions = None
 
     for line in step_lines:
         if line.startswith("-"):
             ingredients.append(line.lstrip("- "))
         elif line.startswith("+"):
-            outputs.append(line.lstrip("+ "))
+            other_inputs.append(line.lstrip("+ "))
         elif instructions:
             instructions = "{} {}".format(instructions, line)
         else:
@@ -44,7 +44,7 @@ def parse_step(step_lines):
 
     return {
         "ingredients": ingredients,
-        "previous_outputs": outputs,
+        "other_inputs": other_inputs,
         "instructions": instructions
     }
 

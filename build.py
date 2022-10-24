@@ -15,23 +15,33 @@ def write_recipe_file(recipe_obj, filename):
         json.dump(recipe_obj, output_file, indent=2)
 
 
+def write_recipe_list_file(recipe_list):
+    with open("dist/recipe_list.json", "w") as output_file:
+        json.dump(recipe_list, output_file, indent=2)
+
+
 def parse_file(filename):
     with open(filename) as recipe:
         return parser.parse_recipe(recipe)
 
 
 def process_recipe_file(direntry):
-    filename = "{}.json".format(os.path.splitext(direntry.name)[0])
+    recipe_id = os.path.splitext(direntry.name)[0]
+    filename = "{}.json".format(recipe_id)
     output_path = RECIPE_OUTPUT_DIR / filename
     recipe_obj = parser.parse_file(direntry.path)
     write_recipe_file(recipe_obj, output_path)
+    return (recipe_obj, recipe_id)
 
 
 def process_all_recipe_files(recipe_dir):
+    recipe_list = []
     with os.scandir(recipe_dir) as it:
         for entry in it:
             if entry.is_file():
-                process_recipe_file(entry)
+                (recipe, file) = process_recipe_file(entry)
+                recipe_list.append({ "title": recipe["title"], "id": file})
+    write_recipe_list_file(recipe_list)
 
 
 def copy_file(source, dest):
