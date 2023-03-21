@@ -12,15 +12,13 @@
 </head>
 <body>
 
-<ul>
-    <!-- ko foreach: recipes -->
+<ul data-bind="foreach: recipes">
     <li>
-        <a class="brand" href="#" data-bind="text: title, href: link">
+        <a data-bind="attr: {href: cookLink(id)}"><span data-bind="text: title"></span></a>
     </li>
 </ul>
 <script type="text/javascript">
-    let id = getUrlParam("id");
-    ko.applyBindings(new RecipeCookTimeViewModel(id));
+    ko.applyBindings(new RecipeListViewModel());
 </script>
 </body>
 </html>

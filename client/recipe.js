@@ -146,22 +146,32 @@ var RecipeCookTimeViewModel = function(recipeId) {
 }
 
 
-var RecipeListViewModel = function(recipeId) {
+var RecipeListViewModel = function() {
     var self = this
     self.recipes = ko.observableArray()
 
-    self.acceptData = function(recipeJson) {
-        self.recipes(recipeJson)
+    self.acceptData = function(recipeListJson) {
+        self.recipes(recipeListJson.sort(
+            function(a, b){
+                return a.title.localeCompare(b.title)
+            }
+        ))
     }
 
-    self.requestData = function(recipeId) {
+    self.requestData = function() {
         let filename = `recipe_list.json`
         fetch(filename)
           .then(response => response.json())
           .then(json => self.acceptData(json))
     }
 
-    self.requestData(recipeId)
+    self.requestData()
+}
+
+
+function cookLink(id) {
+    linkId = encodeURIComponent(id)
+    return `cook.html?id=${linkId}`
 }
 
 function runAjax(url, method, data) {
