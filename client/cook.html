@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="fullpage">
 <head>
-  <title>Cooking: Recipe</title>
+  <title data-bind="text: title">Recipe</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -49,7 +49,7 @@
 
 <script type="text/javascript">
     let id = getUrlParam("id");
-    ko.applyBindings(new RecipeCookTimeViewModel(id));
+    ko.applyBindings(new RecipeCookTimeViewModel(id), document.getElementById("fullpage"));
 </script>
 </body>
 </html>

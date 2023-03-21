@@ -11,9 +11,9 @@ The basic strategy is like this:
 
 To use:
 - Add/edit files in the `recipe` directory.
-- Run `build.py` to generate website files into the `dist` directory.
-- From the `dist` directory, run `python -m http.server`
-
+- Run `build.py package` to generate website files into the `dist` directory.
+- To run a local serter, run `python -m http.server` from the `dist` directory.
+- To upload to internet server, run `build.py publish -k api_file` where `api_file` is a text file containing a Neocities API key.
 
 The recipe text files have the following format. 
 - The first line is the title
