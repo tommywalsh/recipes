@@ -9,11 +9,17 @@ The basic strategy is like this:
 - A handful of HTML files know how to display those JSON files
 - A simple web server makes those HTML and JSON files available
 
+To get setup, you need:
+- A copy of Python 3 installed on the system
+- A local virtual Python environment (`virtualenv -P <path to python3> venv"`)
+- A Neocites API token, saved to a local file named `api_key`
+
 To use:
+- Activate the virtual environment (`source venv/bin/activate`)
 - Add/edit files in the `recipe` directory.
 - Run `build.py package` to generate website files into the `dist` directory.
-- To run a local serter, run `python -m http.server` from the `dist` directory.
-- To upload to internet server, run `build.py publish -k api_file` where `api_file` is a text file containing a Neocities API key.
+- To test locally, run `python -m http.server` from the `dist` directory. Then, point a webbrowser to wherever that command tells you.
+- To upload to Neocities on the internet, run `build.py publish -k api_file` where `api_file` is a text file containing a Neocities API key.
 
 The recipe text files have the following format. 
 - The first line is the title
