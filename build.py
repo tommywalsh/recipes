@@ -64,6 +64,7 @@ def do_publish(api_key_file, remote_dir):
     neocities.sync_neocities(str(DIST_DIR), key, remote_dir)
 
 def do_package():
+    RECIPE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     copy_files(CLIENT_INPUT_DIR, CLIENT_OUTPUT_DIR)
     process_all_recipe_files(RECIPE_INPUT_DIR)
 
